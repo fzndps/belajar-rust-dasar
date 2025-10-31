@@ -72,6 +72,7 @@ COMPOUND TYPE:
 - array : [Kumpulan data yang memiliki tipe data yang sama]
  */
 
+ // Tipe data scalar
 #[test]
 fn number_and_float() {
   let num: i8 = 20; // Explicit
@@ -200,3 +201,58 @@ fn char_type() {
     let c = 'k';
     println!("{}, {}, {}", a, b, c)
 }
+
+// Tipe data compound
+
+/*
+Tuple :
+Data pada tuple itu final, yang berarti  tidak bisa berkurang atau bertambah.
+*/
+
+#[test]
+fn tuple() {
+  let data: (i8, char, bool) = (10, 'w', false);
+  println!("{:?}", data);
+
+  let a = data.0; // Cara mengakses data tuple satu per satu
+  let b = data.1;
+
+  println!("{} {}", a, b)
+}
+
+#[test]
+fn destructuring_tuple() {
+  let data: (i8, char, bool) = (10, 'w', false);
+  // Atau menggunakan Destructuring tuple (membongkar dan menyimpan ke variable)
+  let (a, _, c) = data; // mengakses seluruh data tuple  
+
+  println!("{} {}", a, c)
+}
+
+#[test]
+fn mutable_tuple() {
+  let mut data: (i8, char, bool) = (10, 'w', false); // data tuple dapat di ubah, tetapi tipe data tidak
+  println!("{:?}", data);
+
+  data.0 = 120;
+  data.1 = 'd';
+
+  println!("{:?}", data)
+}
+
+// Di rust function dapat mengembalikan tuple kosong
+#[cfg(test)] // untuk menandai bahwa fungsi ini digunakan untuk testing
+fn unit() { // ini mereturn tuple kosong
+    println!("Hello")
+}
+
+#[test]
+fn test_tuple_kosong() {
+    let result: () = unit(); // ini tipe data tuple kosong
+
+    println!("{:?}", result);
+
+    let test: () = (); // unik jir
+    println!("{:?}", test)
+}
+
