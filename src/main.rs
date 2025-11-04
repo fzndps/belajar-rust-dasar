@@ -253,6 +253,128 @@ fn test_tuple_kosong() {
     println!("{:?}", result);
 
     let test: () = (); // unik jir
-    println!("{:?}", test)
+    println!("{:?}", test);
 }
 
+// Tipe data array di rust tidak bisa dinamis,
+// Jadi array di rust cuma bisa 1 tipe data saja.
+#[test]
+fn array() {
+    // Implisit
+    let array1 = [1,2,3,4,5];
+    // Explisit
+    let array2: [i32; 5] = [1,2,3,4,5];
+
+    println!("{:?}", array1);
+    println!("{:?}", array2);
+}
+
+#[test]
+fn cara_akses_array() {
+    let array = [1,2,3,4,5];
+
+    let a = array[0]; // cara mengakses array bisa menyebutkan 
+    let b = array[3]; // "variable[array yang ingin di akses]"
+
+    println!("{} {}", a, b)
+}
+
+#[test]
+fn mutable_array() {
+    let mut array = [1,2,3,4,5];
+    println!("{:?}", array);
+
+    let a = array[0]; // cara mengakses array bisa menyebutkan 
+    let b = array[3]; // "variable[array yang ingin di akses]"
+
+    println!("{} {}", a, b);
+
+    array[0] = 10; // cara mengganti nilai array
+    array[4] = 50; // dengan mutable
+
+    println!("{:?}", array);
+}
+
+#[test]
+fn len_array() {
+    let array = [1,2,3,4,5];
+    println!("{:?}", array);
+
+    println!("{}", array.len());// cara mengetahui panjang array bisa dengan fungsi bawaan "len()"
+}
+
+#[test]
+fn dimensional_array() {
+    // 3 adalah isi array
+    // 2 pertama adalah baris array
+    // 2 kedua adalah elemen
+    let matrix: [[[i32; 3]; 2]; 2] = [ 
+      [
+        [1, 2, 3],
+        [4, 5, 6],
+      ],
+      [
+        [7, 8, 9],
+        [10, 11, 12]
+      ],
+    ];
+
+    println!("{:?}", matrix);
+    println!("{:?}", matrix[0][0]);
+    println!("{:?}", matrix[0][0][0]);
+    println!("{:?}", matrix[0][0][1]);
+    println!("{:?}", matrix[0][0][2]);
+    println!("{:?}", matrix[0][1]);
+    println!("{:?}", matrix[0][1][0]);
+    println!("{:?}", matrix[0][1][1]);
+    println!("{:?}", matrix[0][1][2]);
+    println!("{:?}", matrix[1][0]);
+    println!("{:?}", matrix[1][0][0]);
+    println!("{:?}", matrix[1][0][1]);
+    println!("{:?}", matrix[1][0][2]);
+    println!("{:?}", matrix[1][1]);
+    println!("{:?}", matrix[1][1][0]);
+    println!("{:?}", matrix[1][1][1]);
+    println!("{:?}", matrix[1][1][2]); 
+}
+
+// variable const
+#[cfg(test)] // untuk menandai bahwa fungsi ini digunakan untuk testing
+const MAXIMUM: i32 = 800;
+
+#[test]
+fn constant() {
+    // Untuk menamai variable const harus menggunakan uppercase semua
+    // Tipe data harus disebutkan
+    // Nilai harus langsung disebutkan
+    const MINIMUM: i64 = 9000;
+
+    println!("{}, {}", MINIMUM, MAXIMUM)
+}
+
+// Scope
+// Jika variable sejajar dengan function itu akan bisa di akses
+// serta juga variable yang sejajar dengan scope itu bisa di akses dari dalam scope.
+// Jika sudah diluar scope maka atau variable tidak sejajar dengan function maka tidak bisa di akses.
+
+#[cfg(test)] // untuk menandai bahwa fungsi ini digunakan untuk testing
+const PRINT: &str = "Print"; // ini bisa di akses dari function manapun karena ini diluar scope dan funtion
+#[test]
+fn variable_scope() {
+    println!("{}", PRINT); // Contoh di akses di fungsi ini atau fungsi diatas lainnya
+
+    let number = 1;
+
+    {// inner scope 
+      println!("{}", number); // number bisa di kases karena variable di outer scope
+      println!("{}", PRINT); // Serta variable terluar bisa di akses karena ini juga outer scope
+
+      let number2 = 2;
+      println!("{}", number2); // ini bisa di akses karena masih didalam scope yang sama
+    }
+
+    // kalau mencoba mengakses variable di inner scope maka akan error 
+    // karena variable yang di inner scope tidak bisa di akses di outer scope
+    // println!("{}", number2); // ini tidak bisa di akses karena sudah di outer
+
+}
