@@ -378,3 +378,83 @@ fn variable_scope() {
     // println!("{}", number2); // ini tidak bisa di akses karena sudah di outer
 
 }
+
+#[test]
+fn memory_management_stack_heap() {
+   test_a();
+   test_b();
+}
+
+#[cfg(test)]
+fn test_a() {
+    let a = 10;
+    let b = String::from("femboy jawa");
+
+    println!("{} {}", a, b)
+}
+
+#[cfg(test)]
+fn test_b() {
+    let a = 10;
+    let b = String::from("femboy sunda");
+
+    println!("{} {}", a, b)
+}
+
+/*
+&str (string slice)
+tipe data ini adalah tipe data yang ukurannya fixed size yang
+artinya data ini akan disimpan di stack
+karena default rust itu immutable maka berlaku juga di &str
+jadi ketika kita membuat variable dengan tipe &str 
+lalu set ke mutable maka ini mengganti data variablenya, 
+bukan isi dari &str. 
+
+misal 
+let mut x = 10;
+x = 20;
+
+ini akan mengganti panah yang awalnya menunjuk x ke 10
+berganti ke x = 20
+
+&str memiliki method untuk memanipulasi &str itu sendiri
+tetapi hasilnya adalah nilai &str baru
+
+tetapi kadang return/kembalian dari method &str adalah String
+yang disimpan di heap
+*/
+
+#[test]
+fn string_slice() {
+    let name = "                   yantop           ";
+    let trim_name = name.trim();
+
+    println!("{}", name);
+    println!("{}", trim_name);
+}
+
+/*
+String
+- String di rust adalah tipe data teks UTF-8, 
+  kalau di set mutable bisa berkembang (heap)
+- String juga bisa dibuat Immutable, 
+  jadi tidak bisa berkembang (tetap disimpan di heap)
+- String juga memiliki method, tetapi perlu diperhatikan
+  method yang kita gunakan apakah memodifikasi mengembangkan
+  data mengubah datanya sendiri, atau menduplikat data 
+  (tampung ke variable baru)
+
+*/
+
+#[test]
+fn string() {
+    // let name = String::from("yantop widodo"); // immutable
+    let mut name = String::from("yantop widodo"); // harus mutable agar bisa berkembang
+    println!("{}", name);
+
+    name.push_str(" subianto");
+    println!("{}", name);
+
+    let name2 = name.replace("yantop", "jokowi");
+    println!("{}", name2)
+}
