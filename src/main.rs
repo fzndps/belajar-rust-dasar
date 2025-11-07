@@ -379,6 +379,7 @@ fn variable_scope() {
 
 }
 
+// Contoh visualisasi: pada learn_rust.excalidraw
 #[test]
 fn memory_management_stack_heap() {
    test_a();
@@ -444,6 +445,7 @@ String
   data mengubah datanya sendiri, atau menduplikat data 
   (tampung ke variable baru)
 
+Contoh visualisasi: pada learn_rust.excalidraw
 */
 
 #[test]
@@ -456,5 +458,77 @@ fn string() {
     println!("{}", name);
 
     let name2 = name.replace("yantop", "jokowi");
-    println!("{}", name2)
+    println!("{}", name2) // hati hati replace mengembalikan data baru/duplikat
+}
+
+/*
+OWNERSHIP RULES
+- Setiap value harus punya owner (variable pemilik value)
+- Dalam satu waktu, data hanya boleh ada 1 owner saja
+- Ketika owner keluar scope, value akan dihapus
+*/
+
+#[test]
+fn ownership_rules() {
+    let a = 10; println!("{}", a);// sudah disimpan di stack
+    // variable a bisa di akses mulai dari sini, 
+    // jika mencoba mengakses diatasnya akan error
+    {// variable b juga dapat di akses mulai dari line yang sama atau dibawahnya
+      let b = 20; // sudah disimpan di stack
+      println!("{}", b)
+    }// di sini scope b sudah selesai, variable b akan dihapus beserta datanya dan tidak bisa di akses lagi
+
+    println!("{}", a);
+}// disini scope a sudah selesai, variable a akan dihapus beserta datanya dan tidak bisa di akses lagi
+
+/*
+DATA COPY
+- Ketika kita berinteraksi dengan data pada variable, data itu dimiliki 1 owner saja
+  atau satu variable saja pemiliknya.
+- Data yang fixed size (disimpan di stack), ketika kita menambahkan ke variable baru atau
+  berbeda (harapannya owner baru), maka hasilnya adalah data akan di copy ke variable yanng
+  baru atau variable yang berbeda, sehingga variable yang berbeda/baru (owner baru) hanya
+  memiliki data hasil copy variable lama (owner lama)
+
+Contoh visualisasi: pada learn_rust.excalidraw
+*/
+
+#[test]
+fn data_copy_stack() {
+    let a = 10;
+    let mut b = a; // copy dari a
+
+    b += 10;
+
+    println!("{} {}", a, b)
+}
+
+/*
+OWNERSHIP MOVEMENT HEAP
+- Data copy tidak terjadi untuk data yang disimpan di heap
+- Ketika kita mencoba membuat variable baru (owner baru) dari variable lama, 
+  maka kepemilikan berpindah atau ditransfer dari owner lama ke owner baru, 
+  jadi bukan copy.
+- Setelah transfer selesai, maka owner lama tidak valid digunakan
+*/
+
+#[test]
+fn ownership_movement_heap() {
+    let mut name1 = String::from("femboy jawa");
+
+    let name2 = name1; // ownership movement
+
+    name1 = String::from("femboy jawa kudus"); // membuat binding baru ke data baru
+
+    println!("{}", name1); // binding ke data baru bisa digunakan kembali
+    println!("{}", name2);
+}
+
+#[test]
+fn ownership_clone() {
+    // heap tidak bisa copy data tapi bisa clone
+    let name1 = String::from("femboy sunda");
+    let name2 = name1.clone(); // clone isi data dari name 1
+
+    println!("{} {}", name1, name2)
 }
