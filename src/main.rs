@@ -532,3 +532,52 @@ fn ownership_clone() {
 
     println!("{} {}", name1, name2)
 }
+
+// Pengondisian if else
+#[test]
+fn if_else() {
+    let test = 3;
+    if test >= 8 {
+      println!("nice")
+    } else if test >= 6 {
+      println!("nice try")
+    } else {
+      println!("this is bad")
+    }
+}
+
+#[test]
+fn loop_test() {
+    let mut i = 0;
+    loop {
+        i+=1;
+
+        if i > 10 {
+          break;
+        }
+
+        if i % 3 == 0 {
+          println!("fizz");
+          continue;
+        } else if i % 5 == 0 {
+          println!("buzz");
+          continue;
+        }
+
+        println!("{}", i);
+    }
+}
+
+#[test]
+fn loop_return_value() {
+    let mut counter = 0;
+    let result = loop {
+        counter += 1;
+        println!("{}", counter);
+        if counter > 10 {
+          break counter * 2;
+        }
+    };
+
+    println!("{}", result)
+}
