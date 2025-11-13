@@ -546,6 +546,8 @@ fn if_else() {
     }
 }
 
+// PERULANGAN
+
 #[test]
 fn loop_test() {
     let mut i = 0;
@@ -556,15 +558,15 @@ fn loop_test() {
           break;
         }
 
-        if i % 3 == 0 {
-          println!("fizz");
-          continue;
-        } else if i % 5 == 0 {
+        if i % 5 == 0 {
           println!("buzz");
           continue;
-        }
-
-        println!("{}", i);
+        } else if i % 3 == 0 {
+          println!("fizz");
+          continue;
+        } else {
+					println!("{}", i);
+				}
     }
 }
 
@@ -581,3 +583,184 @@ fn loop_return_value() {
 
     println!("{}", result)
 }
+
+#[test]
+fn loop_lable() {
+    let mut counter = 1;
+    'outer:loop {
+      let mut i = 1;
+        loop {
+            if counter > 10 {
+              break 'outer;
+            }
+
+            let result = counter + i;
+            i += 1;
+            if i > 10 {
+              break;
+            }
+
+            if result % 5 == 0 {
+                println!("buzz");
+            } else if result % 3 == 0 {
+                println!("fizz");                
+            } else {
+		            println!("{} + {} = {}", counter, i, result);
+						}
+        }
+        counter += 1
+    }
+}
+
+#[test]
+fn while_loop() {
+    let mut counter = 1;
+    while counter < 100 {
+				counter+=1;
+
+        if counter % 15 == 0{ // eksekusi duluan biar ga ketangkep %3 dan %5
+					println!("fizzbuzz");					
+				} else if counter %5 == 0 {
+					println!("buzz");					
+				} else if  counter % 3 == 0 {
+						println!("fizz")
+				} else {
+					println!("{}", counter);	
+		    }
+    }
+}
+
+#[test]
+fn while_iteration() {
+    let arr: [&str; 5] = ["A", "B", "C", "D", "E"];
+    let mut index = 0;
+
+    while index < arr.len() {
+        println!("{}", arr[index]);
+        index+=1;
+    }
+}
+
+#[test]
+fn iteration_for_loop() {
+    let arr: [&str; 5] = ["A", "B", "C", "D", "E"];
+
+    for value in arr{
+      println!("{}", value)
+    }
+}
+
+/*
+TIPE DATA RANGE
+- Range merupakan jarak antara start dan end (Exclusive: diakhiri 1 angka sebelum end)
+- Tipe data Range ini adalah collection seperti array
+*/
+
+#[test]
+fn range_exclusive() {
+    let arr: [&str; 5] = ["A", "B", "C", "D", "E"];
+    let val = 0..5;
+
+    println!("start : {}", val.start); // start atribute
+    println!("end : {}", val.end); // end atribute
+
+    for i in val {
+        println!("array[{}]: {}", i, arr[i]);
+    }
+}
+
+#[test]
+fn range_inclusive() {
+    let arr: [&str; 5] = ["A", "B", "C", "D", "E"];
+    let val = 0..=4;
+
+    println!("start : {}", val.start()); // start func
+    println!("end : {}", val.end()); // end func
+
+    for i in val {
+        println!("array[{}]: {}", i, arr[i]);
+    }
+}
+
+// FUNCTION PADA RUST DENGAN PARAMETER
+#[cfg(test)]
+fn iterations(panjang: i32, nilai_awal_counter: i32) {
+    let mut counter = nilai_awal_counter;
+    while counter < panjang {
+		  counter+=1;
+      
+      if nilai_awal_counter < 0 {
+          println!("ngotak dikit kalo kasi nilai iterasi");
+          break;
+      }
+
+      if counter % 15 == 0{ // eksekusi duluan biar ga ketangkep %3 dan %5
+        println!("fizzbuzz");					
+      } else if counter %5 == 0 {
+        println!("buzz");					
+      } else if  counter % 3 == 0 {
+          println!("fizz")
+      } else {
+        println!("{}", counter);	
+      }
+    }    
+}
+
+#[test]
+fn test_iterations() {
+    iterations(20, 0);
+}
+
+// Funtion di rust dengan return value
+#[cfg(test)]
+fn function_factorial(n: i32) -> i32 {
+    if n < 1 {
+      return 0;
+    }
+
+    let mut result = 1;
+    for i in 1..=n {
+      result *= i;
+    }
+
+    result
+}
+
+#[test]
+fn test_function_factorial() {
+    let result = function_factorial(5);
+    println!("{}", result);
+
+    let result2 = function_factorial(-5);
+    println!("{}", result2);
+}
+
+// Recursive function: Function yang memanggil dirinya sendiri
+#[cfg(test)]
+fn print_text(value: String, times: i32) {
+    if times == 0 {
+      return;
+    } else {
+      println!("{}", value);
+    }
+
+    print_text(value, times - 1);
+}
+
+#[cfg(test)]
+fn recursive_function_factorial(n: u32) -> u32 {
+    if n <= 1 {
+      return 1;
+    }
+
+    n * recursive_function_factorial(n - 1)
+}
+
+
+#[test]
+fn test_recursive() {
+    print_text(String::from("fizo"), 10);
+    let result = recursive_function_factorial(5);
+    println!("{}", result)
+}
+
